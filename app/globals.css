@@ -1,26 +1,207 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ======================================================
+   Tailwind v4 variants
+====================================================== */
+@custom-variant dark (&:is(.dark *));
 
+/* ======================================================
+   DESIGN TOKENS (Tailwind mappings)
+====================================================== */
 @theme inline {
+  /* radius scale */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+
+  /* semantic colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+
+  /* app-specific colors */
+  --color-black-1: #101114;
+  --color-black-6: #1c1d22;
+  --color-white-1: #ffffff;
+  --color-gray-1: #9ca3af;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ======================================================
+   LIGHT MODE VALUES
+====================================================== */
+:root {
+  --radius: 0.625rem;
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.129 0.042 264.695);
+  --border: oklch(0.929 0.013 255.508);
+  --ring: oklch(0.704 0.04 256.788);
+}
+
+/* ======================================================
+   DARK MODE OVERRIDES
+====================================================== */
+.dark {
+  --background: oklch(0.129 0.042 264.695);
+  --foreground: oklch(0.984 0.003 247.858);
+  --border: oklch(1 0 0 / 10%);
+  --ring: oklch(0.551 0.027 264.364);
+}
+
+/* ======================================================
+   BASE STYLES
+====================================================== */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ======================================================
+   UTILITIES
+====================================================== */
+@layer utilities {
+  /* layout helpers */
+  .flex-center {
+    @apply flex items-center justify-center;
+  }
+
+  .podcast_grid {
+    @apply grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4;
+  }
+
+  /* form */
+  .input-class {
+    @apply text-[16px] placeholder:text-[16px] rounded-[6px]
+           bg-black-1 text-gray-1 placeholder:text-gray-1 border-none;
+  }
+
+  /* sidebars */
+  .right_sidebar {
+    @apply sticky top-0 right-0 w-[310px] flex flex-col
+           bg-black-1 px-[30px] pt-8 max-xl:hidden;
+  }
+
+  .left_sidebar {
+    @apply sticky top-0 left-0 flex flex-col justify-between
+           bg-black-1 pt-8 text-white-1
+           max-md:hidden lg:w-[270px] lg:pl-8;
+  }
+
+  /* components */
+  .generate_thumbnail {
+    @apply mt-[30px] w-full max-w-[520px] flex flex-col gap-2
+           rounded-lg border border-black-6 bg-black-1
+           px-2.5 py-2 md:flex-row md:gap-0;
+  }
+
+  .image_div {
+    @apply flex items-center justify-center mt-5 h-[142px] w-full
+           cursor-pointer flex-col gap-3 rounded-xl
+           border-[3.2px] border-dashed border-black-6 bg-black-1;
+  }
+
+  .carousel_box {
+    @apply relative aspect-square w-full flex flex-col justify-end rounded-xl;
+  }
+
+  /* typography helpers */
+  .text-12 { @apply text-[12px] leading-normal; }
+  .text-14 { @apply text-[14px] leading-normal; }
+  .text-16 { @apply text-[16px] leading-normal; }
+  .text-18 { @apply text-[18px] leading-normal; }
+  .text-20 { @apply text-[20px] leading-normal; }
+  .text-24 { @apply text-[24px] leading-normal; }
+  .text-32 { @apply text-[32px] leading-normal; }
+
+  .button_bold-16 {
+    @apply text-[16px] font-bold text-white-1 transition-all duration-500;
+  }
+}
+
+/* ======================================================
+   EFFECTS
+====================================================== */
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+}
+
+.glassmorphism-auth {
+  background: rgba(6, 3, 3, 0.71);
+  backdrop-filter: blur(4px);
+}
+
+.glassmorphism-black {
+  background: rgba(18, 18, 18, 0.64);
+  backdrop-filter: blur(37px);
+}
+
+/* ======================================================
+   SCROLLBARS
+====================================================== */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #15171c;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #222429;
+  border-radius: 50px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ======================================================
+   ACCESSIBILITY
+====================================================== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* ======================================================
+   CLERK OVERRIDES
+====================================================== */
+.cl-button,
+.cl-userButtonPopoverActionButtonIcon {
+  color: white;
+}
+
+.cl-socialButtonsIconButton {
+  border: 2px solid #222429;
+}
+
+.cl-socialButtonsProviderIcon__github {
+  filter: invert(1);
+}
+
+.cl-formButtonPrimary {
+  background: #f97535;
 }
