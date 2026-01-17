@@ -1,18 +1,19 @@
+
 import Image from 'next/image'
 import React from 'react'
 
 const PodcastCard = ({
-  imgURL, title, description, PodcastId
+  imgURL, title, description, podcastId
 }: {
   imgURL: string,
   title: string,
   description: string,
-  PodcastId: number,
+  podcastId: number,
 }) => {
   return (
     <div className='cursor-pointer'>
       <figure className='flex flex-col gap-2'>
-        <img 
+        <Image 
         src={imgURL} 
         width={174} 
         height={174} 
